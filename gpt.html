@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Climate Change Data</h1>
+        <button id="fetchData" link="">Load Climate Data</button>
+        <table id="climateTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Temperature Anomaly (°C)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById("fetchData").addEventListener("click", function() {
+            fetch("http://127.0.0.1:5000/data")  // Adjust if running on a different port
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody = document.querySelector("#climateTable tbody");
+                    tableBody.innerHTML = ""; // Clear previous data
+                    data.forEach(entry => {
+                        let row = `<tr><td>${entry.Year}</td><td>${entry["Temperature Anomaly (°C)"]}</td></tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        });
+    </script>
+</body>
+</html>
